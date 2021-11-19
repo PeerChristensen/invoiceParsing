@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*
+
 from bs4 import BeautifulSoup as bs4
 import pandas as pd
 import re
@@ -24,6 +26,21 @@ def parse_all_files(files: list) -> pd.DataFrame:
         list_of_dfs.append(xml_data)
 
     stacked_df = pd.concat(list_of_dfs)
+
+    stacked_df = stacked_df[stacked_df['ProductNameFSC'].str.contains("FSC")]
+    stacked_df['FSCValue'] = stacked_df['ProductNameFSC'].str.findall('FSC.*').apply(','.join)
+
     return stacked_df
 
+
 final_df = parse_all_files(files)
+final_df.astype(str).to_csv("FSC_output_test.csv", index=False, sep=";", encoding="latin-1")
+
+
+
+# create excel writer object
+writer = pd.ExcelWriter('FSC_output_test.xlsx')
+# write dataframe to excel
+final_df.astype(str).to_excel(writer)
+# save the excel
+writer.save()

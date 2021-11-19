@@ -74,6 +74,7 @@ def make_df_from_xml_file(file: str) -> pd.DataFrame:
 
 
 def parse_xml_files(files: list) -> pd.DataFrame:
+
     """
     Top-level function to parse xml files.
     Returns a dataframe based on input files.
