@@ -5,9 +5,6 @@ import pandas as pd
 import re
 import os
 
-path = "files"
-file_names = os.listdir(path)
-files = [os.path.join(path,i) for i in file_names]
 
 def parse_all_files(files: list) -> pd.DataFrame:
     """
@@ -31,16 +28,3 @@ def parse_all_files(files: list) -> pd.DataFrame:
     stacked_df['FSCValue'] = stacked_df['ProductNameFSC'].str.findall('FSC.*').apply(','.join)
 
     return stacked_df
-
-
-final_df = parse_all_files(files)
-final_df.astype(str).to_csv("FSC_output_test.csv", index=False, sep=";", encoding="latin-1")
-
-
-
-# create excel writer object
-writer = pd.ExcelWriter('FSC_output_test.xlsx')
-# write dataframe to excel
-final_df.astype(str).to_excel(writer)
-# save the excel
-writer.save()

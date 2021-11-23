@@ -92,10 +92,3 @@ def parse_edi_files(files: list) -> pd.DataFrame:
     stacked_df = pd.concat(list_of_dfs)
     return stacked_df
 
-### EXAMPLE
-
-file1 = "files/Esselte_04501_INOUT_INVOIC.21711_20210825120730853.edi"
-file2 = "files/Staedtler Nordic AS_20210519_040021930_26.edi"
-files = [file1, file2]
-
-data = parse_edi_files(files)
