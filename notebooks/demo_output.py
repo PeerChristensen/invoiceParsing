@@ -11,7 +11,7 @@ from glob import glob
 #file_names = os.listdir(path)
 #files = [os.path.join(path, i) for i in file_names]
 
-glob_pattern = os.path.join('files', '*')
+glob_pattern = os.path.join('many_files', '*')
 file_names = glob(glob_pattern)
 
 df = parse_files(file_names)
@@ -21,5 +21,7 @@ df.head()
     print(f"\n\n\n\n\n\n{i}")
     df = parse_files([i])
     print(f"\n{df}")"""
+
+df.to_csv("data/FSC_output_more_features_large.csv", sep=";", index=False)
 
 

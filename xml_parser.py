@@ -21,7 +21,7 @@ class XMLParser:
     def get_issue_date_xml(self) -> str:
         """Get issue date from xml file"""
         issue_date = None
-        issue_date = self.soup.find("cbc:IssueDate").text
+        issue_date = self.soup.find("cbc:IssueDate").text.replace("-", "")
         if issue_date:
             return issue_date
         else:

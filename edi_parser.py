@@ -19,7 +19,7 @@ class EDIParser:
         issue_date = None
         for string in self.content_list:
             if "DTM" in string.upper():
-                issue_date = string.split(":")[1]
+                issue_date = string.split(":")[1].replace("-", "")
                 break
 
         if issue_date:
