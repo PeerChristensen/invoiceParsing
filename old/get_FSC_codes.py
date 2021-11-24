@@ -10,7 +10,7 @@ from edi_parser import EDIParser
 # XML
 # ------------------------------------
 
-glob_pattern = os.path.join('files', '*xml')
+glob_pattern = os.path.join('../files', '*xml')
 file_name = glob(glob_pattern)[0]
 
 content = XMLParser.get_xml_content(file_name)
@@ -40,10 +40,24 @@ fsc_code = get_fsc_code_xml(content)
 # EDI
 # ------------------------------------
 
-glob_pattern = os.path.join('files', '*edi')
+glob_pattern = os.path.join('../files', '*edi')
 file_name = glob(glob_pattern)[1]
 
 content = EDIParser.get_edi_content(file_name)
+
+
+def get_issue_date(content) -> str:
+    """Get issue date from edi file"""
+    issue_date = None
+    for string in content:
+        if "DTM" in string.upper():
+            issue_date = string.split(":")[1]
+            break
+
+    if issue_date:
+        return issue_date
+    else:
+        return ""
 
 
 def get_fsc_code(content) -> str:

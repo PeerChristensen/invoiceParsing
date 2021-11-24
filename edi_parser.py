@@ -14,6 +14,35 @@ class EDIParser:
         content_list = content.split("'")
         return content_list
 
+    def get_issue_date(self) -> str:
+        """Get issue date from edi file"""
+        issue_date = None
+        for string in self.content_list:
+            if "DTM" in string.upper():
+                issue_date = string.split(":")[1]
+                break
+
+        if issue_date:
+            return issue_date
+        else:
+            return ""
+
+    def get_fsc_code(self) -> str:
+        """Get FSC code from edi file"""
+        fsc_code = None
+        for string in self.content_list:
+            if "COC" in string.upper():
+                coc_string = string.upper().split(" ")
+                for substring in coc_string:
+                    if "COC" in substring:
+                        fsc_code = substring.split(".")[0]
+                        break
+
+        if fsc_code:
+            return fsc_code
+        else:
+            return ""
+
     def get_creditor_gln(self) -> str:
         """
         Get Creditor GLN from edifact file
@@ -69,14 +98,17 @@ class EDIParser:
 
     def parse(self) -> pd.DataFrame:
         """Main function  that parses EDI."""
-        df = pd.DataFrame({"CreditorGLN": [self.get_creditor_gln()],
+        df = pd.DataFrame({"IssueDate": [self.get_issue_date()],
+                           "CreditorGLN": [self.get_creditor_gln()],
+                           "FSCCode": [self.get_fsc_code()],
                            "InvoiceNum": [self.get_invoice_no()],
                            "Barcode": [self.get_barcodes()],
                            "ProductNameFSC": [self.get_name_and_fsc()]})
         return df.explode(["Barcode", "ProductNameFSC"]).reset_index(drop=True)
 
-
+'''
 p = EDIParser("many_files/20200916_120003375_55.edi")
 p = EDIParser("files/Staedtler Nordic AS_20210519_040021930_26.edi")
 df = p.parse()
 df.explode(["Barcode", "ProductNameFSC"]).reset_index(drop=True)
+'''

@@ -92,7 +92,7 @@ def parse_xml_files(files: list) -> pd.DataFrame:
 
 
 
-xml_file = "files/Burde invoice_000759106_2021-08-11-10-45-31{c732b041-f0d5-483e-b83b-3b92722a3b59}.xml"
+xml_file = "../files/Burde invoice_000759106_2021-08-11-10-45-31{c732b041-f0d5-483e-b83b-3b92722a3b59}.xml"
 files = [xml_file]
 
 data = parse_xml_files(files)
