@@ -22,6 +22,6 @@ df.head()
     df = parse_files([i])
     print(f"\n{df}")"""
 
-df.to_csv("data/FSC_output_more_features_large.csv", sep=";", index=False)
+df.to_csv("data/FSC_output_more_features_large.csv", sep=",", index=False)
 
 

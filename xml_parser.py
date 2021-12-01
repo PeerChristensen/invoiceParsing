@@ -81,12 +81,12 @@ class XMLParser:
         """Main function  that parses XML."""
 
         df = pd.DataFrame({"IssueDate": [self.get_issue_date_xml()],
-                            "CreditorGLN": [self.get_creditor_gln_xml()],
+                           "CreditorGLN": [self.get_creditor_gln_xml()],
                            "FSCCode": [self.get_fsc_code_xml()],
                            "InvoiceNum": [self.get_invoice_no_xml()],
                            "Barcode": [self.get_barcodes_xml()],
-                           "ProductNameFSC": [self.get_name_and_fsc_xml()]})
-        return df.explode(["Barcode", "ProductNameFSC"]).reset_index(drop=True)
+                           "ProductDesc": [self.get_name_and_fsc_xml()]})
+        return df.explode(["Barcode", "ProductDesc"]).reset_index(drop=True)
 
 
 '''

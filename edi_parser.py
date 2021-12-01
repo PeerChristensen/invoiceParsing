@@ -103,12 +103,12 @@ class EDIParser:
                            "FSCCode": [self.get_fsc_code()],
                            "InvoiceNum": [self.get_invoice_no()],
                            "Barcode": [self.get_barcodes()],
-                           "ProductNameFSC": [self.get_name_and_fsc()]})
-        return df.explode(["Barcode", "ProductNameFSC"]).reset_index(drop=True)
+                           "ProductDesc": [self.get_name_and_fsc()]})
+        return df.explode(["Barcode", "ProductDesc"]).reset_index(drop=True)
 
 '''
 p = EDIParser("many_files/20200916_120003375_55.edi")
 p = EDIParser("files/Staedtler Nordic AS_20210519_040021930_26.edi")
 df = p.parse()
-df.explode(["Barcode", "ProductNameFSC"]).reset_index(drop=True)
+df.explode(["Barcode", "ProductDescr"]).reset_index(drop=True)
 '''

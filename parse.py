@@ -19,7 +19,7 @@ def parse_files(file_names: List[str]) -> pd.DataFrame:
         extension = file_name.split(".")[-1]
         if extension not in file_parser_map:
             raise ValueError(
-                f"Extension {extension} not supported. Valid extensions are {list(file_parser_map.keys())}"
+                f"Extension {extension} in {file_name} not supported. Valid extensions are {list(file_parser_map.keys())}"
             )
         df = file_parser_map[extension](file_name).parse()
         if "/" in file_name:
@@ -27,8 +27,9 @@ def parse_files(file_names: List[str]) -> pd.DataFrame:
         df["Filename"] = file_name
         list_of_dfs.append(df)
     stacked_df = pd.concat(list_of_dfs)
-    stacked_df = stacked_df[stacked_df['ProductNameFSC'].str.contains("FSC")]
-    stacked_df['FSCValue'] = stacked_df['ProductNameFSC'].str.findall('FSC.*').apply(','.join)
+    #stacked_df = stacked_df[stacked_df['ProductDesc'].str.contains("FSC")]
+    stacked_df = stacked_df[stacked_df['ProductDesc'].str.len() > 0]
+    stacked_df['FSCValue'] = stacked_df['ProductDesc'].str.findall('FSC.*').apply(','.join)
     stacked_df = stacked_df[['Filename'] + [col for col in stacked_df.columns if col != 'Filename']]
     return stacked_df
 
