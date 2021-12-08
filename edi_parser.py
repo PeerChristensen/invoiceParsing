@@ -49,12 +49,15 @@ class EDIParser:
         Q: Does the relevant element always start with "UNB+UNOC:3+
         Q: Is this the same as Creditor number"
         """
-        for i in self.content_list:
-            if i.startswith('UNB+UNOC'):
-                creditor_gln__string = i
-                break
-
-        creditor_gln = re.search('UNB\\+UNOC:3\\+(.*?)\\:', creditor_gln__string).group(1)
+        creditor_gln = None
+        try:
+            for i in self.content_list:
+                if i.startswith('UNB+UNOC'):
+                    creditor_gln__string = i
+                    creditor_gln = re.search('UNB\\+UNOC:3\\+(.*?)\\:', creditor_gln__string).group(1)
+                    break
+        except: 
+            creditor_gln = ""
         return creditor_gln
 
     def get_invoice_no(self) -> str:

@@ -28,7 +28,8 @@ def parse_files(file_names: List[str]) -> pd.DataFrame:
         list_of_dfs.append(df)
     stacked_df = pd.concat(list_of_dfs)
     #stacked_df = stacked_df[stacked_df['ProductDesc'].str.contains("FSC")]
-    stacked_df = stacked_df[stacked_df['ProductDesc'].str.len() > 0]
+    #stacked_df = stacked_df[stacked_df['ProductDesc'].str.len() > 0]
+    stacked_df.fillna("",inplace=True)
     stacked_df['FSCValue'] = stacked_df['ProductDesc'].str.findall('FSC.*').apply(','.join)
     stacked_df = stacked_df[['Filename'] + [col for col in stacked_df.columns if col != 'Filename']]
     return stacked_df

@@ -20,41 +20,52 @@ class XMLParser:
 
     def get_issue_date_xml(self) -> str:
         """Get issue date from xml file"""
-        issue_date = None
-        issue_date = self.soup.find("cbc:IssueDate").text.replace("-", "")
-        if issue_date:
-            return issue_date
-        else:
-            return ""
+        try:
+            issue_date = self.soup.find("cbc:IssueDate").text.replace("-", "")
+        except:
+            issue_date = ''
+        return issue_date
 
     def get_creditor_gln_xml(self) -> str:
         """Get Creditor GLN from xml file"""
-        acp_tag = self.soup.find("cac:AccountingCustomerParty")
-        creditor_gln = acp_tag.PartyIdentification.ID.text
+        try:
+            acp_tag = self.soup.find("cac:AccountingCustomerParty")
+            acp_tag = acp_tag.PartyIdentification.ID.text
+        except:
+            acp_tag = ''
+        creditor_gln = acp_tag
         return creditor_gln
 
     def get_fsc_code_xml(self) -> str:
         """Get FSC code from xml file"""
-        fsc_code = None
-        note_with_fsc_list = self.soup.find("cbc:Note").text.split(".")
-        for i in note_with_fsc_list:
-            if "COC" in i.upper():
-                fsc_code_string = i
-                break
-        if fsc_code_string:
-            fsc_code = fsc_code_string.split(":")[1].strip()
+        try:
+            note_with_fsc_list = self.soup.find("cbc:Note").text.split(".")
+            for i in note_with_fsc_list:
+                if "COC" in i.upper():
+                    fsc_code_string = i
+                    break
+            if fsc_code_string:
+                fsc_code = fsc_code_string.split(":")[1].strip()
+                return fsc_code
+        except:
+            fsc_code = ''
             return fsc_code
-        else:
-            return fsc_code
+
 
     def get_invoice_no_xml(self) -> str:
         """Get invoice number from xml file"""
-        invoice_no = self.soup.find("cbc:ID").text
+        try:
+            invoice_no = self.soup.find("cbc:ID").text
+        except:
+            invoice_no = ''
         return invoice_no
 
     def get_items_xml(self) -> bs4:
         """Get all 'Item' tags from xml"""
-        items = self.soup.findAll("cac:Item")
+        try:
+            items = self.soup.findAll("cac:Item")
+        except:
+            items = ''
         return items
 
     def get_barcodes_xml(self) -> list:
